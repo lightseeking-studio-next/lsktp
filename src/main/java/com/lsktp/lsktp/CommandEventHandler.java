@@ -1,5 +1,6 @@
 package com.lsktp.lsktp;
 
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -20,9 +21,9 @@ public class CommandEventHandler {
         event.getDispatcher().register(
                 LiteralArgumentBuilder.<CommandSourceStack>literal("lsktp")
                         .requires(source -> source.hasPermission(0))
-                        .then(RequiredArgumentBuilder.<CommandSourceStack, Integer>argument("x", IntegerArgumentType.integer())
-                                .then(RequiredArgumentBuilder.<CommandSourceStack, Integer>argument("y", IntegerArgumentType.integer())
-                                        .then(RequiredArgumentBuilder.<CommandSourceStack, Integer>argument("z", IntegerArgumentType.integer())
+                        .then(RequiredArgumentBuilder.<CommandSourceStack, Double>argument("x", DoubleArgumentType.doubleArg())
+                                .then(RequiredArgumentBuilder.<CommandSourceStack, Double>argument("y", DoubleArgumentType.doubleArg())
+                                        .then(RequiredArgumentBuilder.<CommandSourceStack, Double>argument("z", DoubleArgumentType.doubleArg())
                                                 .executes(CommandEventHandler::teleportPlayer)
                                         )
                                 )
@@ -38,14 +39,12 @@ public class CommandEventHandler {
             context.getSource().sendFailure(Component.literal("只能由玩家执行此命令！"));
             return 0;
         }
-        int x = IntegerArgumentType.getInteger(context, "x");
-        int y = IntegerArgumentType.getInteger(context, "y");
-        int z = IntegerArgumentType.getInteger(context, "z");
+        double x = DoubleArgumentType.getDouble(context, "x");
+        double y = DoubleArgumentType.getDouble(context, "y");
+        double z = DoubleArgumentType.getDouble(context, "z");
 
-        // ...existing code...
-        player.teleportTo((double)x, (double)y, (double)z);
+        player.teleportTo(x, y, z);
         context.getSource().sendSuccess(() -> Component.literal("传送至 " + x + ", " + y + ", " + z), false);
-// ...existing code...
         return 1;
     }
 }
