@@ -1,0 +1,72 @@
+// 可选：使用 BMCLAPI 镜像加速下载
+ext {
+    MC_JSON_URL = "https://bmclapi2.bangbang93.com/versions/{MC_VERSION}/{MC_VERSION}.json"
+    MC_JAR_URL = "https://bmclapi2.bangbang93.com/versions/{MC_VERSION}/{MC_VERSION}.jar"
+    MC_SERVER_URL = "https://bmclapi2.bangbang93.com/versions/{MC_VERSION}/minecraft_server.{MC_VERSION}.jar"
+    ASSETS_INDEX_URL = "https://bmclapi2.bangbang93.com/indexes/{ASSET_INDEX}.json"
+    ASSETS_URL = "https://bmclapi2.bangbang93.com/assets"
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            name = "aliyun-public"
+            url = "http://maven.aliyun.com/nexus/content/groups/public/"
+            allowInsecureProtocol = true
+        }
+        maven {
+            name = "lss233-repo"
+            url = "https://lss233.littleservice.cn/repositories/forgedev"
+        }
+        maven {
+            name = "gradle-plugin"
+            url = "https://maven.aliyun.com/repository/gradle-plugin"
+            allowInsecureProtocol = true
+        }
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
+    }
+}
+
+apply plugin: 'forge'
+
+version = "1.0"
+group = "lsk.lsktp.lsktp"
+archivesBaseName = "lsktp"
+
+sourceCompatibility = targetCompatibility = 1.7
+compileJava {
+    sourceCompatibility = targetCompatibility = 1.7
+}
+
+minecraft {
+    version = "1.7.10-10.13.4.1614-1.7.10"
+    runDir = "eclipse"
+}
+
+dependencies {
+
+    // 你的依赖
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "lsktp",
+  "name": "lsktp",
+  "description": "无op传送模组",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/lightseeking-studio-next/lsktp",
+  "updateUrl": "",
+  "authorList": ["寻光开发组"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
